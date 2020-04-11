@@ -262,4 +262,30 @@ $(function () {
       modal.removeEventListener('submit', checkForm);
     }
   });
+  $('.portfolio__slider').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    infinite: true,
+    nextArrow: '<button class="slick-next portfolio-next"><img src="img/arrow-right.png"></button>',
+    prevArrow: '<button class="slick-prev portfolio-prev"><img src="img/arrow-left.png"></button>'
+  }); // $('img.img-svg').each(function(){
+  //     var $img = $(this);
+  //     var imgClass = $img.attr('class');
+  //     var imgURL = $img.attr('src');
+  //     $.get(imgURL, function(data) {
+  //       var $svg = $(data).find('svg');
+  //       $svg.prepend('<defs><linearGradient id="grad"><stop offset="0%" stop-color="gold"/><stop offset="100%" stop-color="teal"/></linearGradient></defs>');
+  //       if(typeof imgClass !== 'undefined') {
+  //         $svg = $svg.attr('class', imgClass+' replaced-svg');
+  //       }
+  //       $svg = $svg.removeAttr('xmlns:a');
+  //       if(!$svg.attr('viewBox') && $svg.attr('height') && $svg.attr('width')) {
+  //         $svg.attr('viewBox', '0 0 ' + $svg.attr('height') + ' ' + $svg.attr('width'))
+  //       }
+  //     //   $svg.find('path').each(function(){
+  //     //     $(this).attr('fill', 'url(#grad)');
+  //     //   });
+  //       $img.replaceWith($svg);
+  //     }, 'xml');
+  //   });
 });
