@@ -1,8 +1,6 @@
 "use strict";
 
 $(function () {
-  alert(document.documentElement.clientWidth);
-
   if (document.documentElement.clientWidth > 1000) {
     var scene = $('#scene').get(0);
     var parallaxInstance = new Parallax(scene);
@@ -234,7 +232,11 @@ $(function () {
       }
 
       modal.querySelector('.modal__body').innerHTML = '<div class="modal__title modal__title-thanks">Заявка принята!</div><div class="modal__text modal__text-thanks">Спасибо, что выбрали нас!</div><div class="modal__thanks"><img src="img/thanks.png" alt=""></div><div class="modal__descr modal__descr-thanks">Рекомендуем подписаться на наши социальные сети и получить скидку 10%</div><div class="messengers"><a href="https://www.instagram.com/visual.up/" class="messenger"><img src="img/instagram.png" alt=""></a><a href="https://www.behance.net/visual_up" class="messenger"><img src="img/behance.png" alt=""></a></div>';
-      modal.querySelector('.modal__body').style.background = 'none';
+
+      if (document.documentElement.clientWidth > 600) {
+        modal.querySelector('.modal__body').style.background = 'none';
+      }
+
       modal.removeEventListener('change', checkInput);
       modal.removeEventListener('submit', checkForm);
     }
