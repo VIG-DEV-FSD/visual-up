@@ -11,7 +11,7 @@ $(function () {
         arrows: false,
         dots: true,
         infinite: true,
-        dotsClass: 'main-screen__text-dots',
+        dotsClass: 'main-screen__text-dots dots',
         autoplay: true,
         autoplaySpeed: 4000,
         fade: true,
@@ -71,7 +71,7 @@ $(function () {
         let telField = modal.querySelector('input[type="tel"]');
         let timeout;
         $(telField).mask('+7 (000) 000 00 00', {
-            onChange: function(cep){
+            onChange: function (cep) {
                 clearTimeout(timeout)
                 timeout = setTimeout(() => {
                     checkPhone(cep);
@@ -145,11 +145,11 @@ $(function () {
                     }
                     break;
                 case 'checkbox':
-                    if (target.checked){
+                    if (target.checked) {
                         errs.splice(index, 1);
                         hideError();
                     }
-                    else{
+                    else {
                         errs.push(target);
                         showError();
                     }
@@ -163,7 +163,7 @@ $(function () {
             telNumber = value;
             let index = errs.indexOf(tel);
 
-            if(value.length == 0){
+            if (value.length == 0) {
                 form.telValid = false;
                 tel.closest('.input-wrapper').classList.remove('error');
                 tel.closest('.input-wrapper').classList.remove('success');
@@ -231,8 +231,8 @@ $(function () {
 
             modal.querySelector('.modal__body').innerHTML = '<div class="modal__title modal__title-thanks">Заявка принята!</div><div class="modal__text modal__text-thanks">Спасибо, что выбрали нас!</div><div class="modal__thanks"><img src="img/thanks.png" alt=""></div><div class="modal__descr modal__descr-thanks">Рекомендуем подписаться на наши социальные сети и получить скидку 10%</div><div class="messengers"><a href="https://www.instagram.com/visual.up/" class="messenger"><img src="img/instagram.png" alt=""></a><a href="https://www.behance.net/visual_up" class="messenger"><img src="img/behance.png" alt=""></a></div>';
 
-            if (document.documentElement.clientWidth > 600){
-               modal.querySelector('.modal__body').style.background = 'none'; 
+            if (document.documentElement.clientWidth > 600) {
+                modal.querySelector('.modal__body').style.background = 'none';
             }
 
             modal.removeEventListener('change', checkInput);
@@ -264,12 +264,37 @@ $(function () {
         }
     });
 
+    let services = document.querySelector('.services__inner');
+    let currentService = services.querySelector('.services__item-main');
+    currentService.classList.add('active');
+    services.addEventListener('mouseover', onService);
+    services.addEventListener('mouseout', offService);
+
+    checkServices();
+
+    $(window).resize(function () {
+        checkServices();
+    });
+
+
     $('.portfolio__slider').slick({
         slidesToShow: 1,
         slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        fade: true,
+        speed: 1000,
         infinite: true, 
         nextArrow: '<button class="slick-next portfolio-next"><img src="img/arrow-right.png"></button>',
-        prevArrow: '<button class="slick-prev portfolio-prev"><img src="img/arrow-left.png"></button>'
+        prevArrow: '<button class="slick-prev portfolio-prev"><img src="img/arrow-left.png"></button>',
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    arrows: false
+                }
+            }
+        ]
     });
 
     // $('img.img-svg').each(function(){
@@ -292,6 +317,64 @@ $(function () {
     //       $img.replaceWith($svg);
     //     }, 'xml');
     //   });
+
+    function checkServices() {
+        if (document.documentElement.clientWidth < 1031 && !$('.services__inner').hasClass('slick-slider')) {
+            currentService.classList.remove('active');
+            services.removeEventListener('mouseover', onService);
+            services.removeEventListener('mouseout', offService);
+            $('.services__inner').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                dotsClass: 'dots services__dots',
+                arrows: false,
+                centerMode: true,
+                focusOnSelect: true,
+                centerPadding: '30px',
+                autoplay: 2000,
+                infinite: true,
+                initialSlide: 2,
+                dots: true,
+                responsive: [
+                    {
+                        breakpoint: 955,
+                        settings: {
+                            centerMode: false,
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+        }
+        else if (document.documentElement.clientWidth >= 1031 && $('.services__inner').hasClass('slick-slider')) {
+            $('.services__inner').slick('unslick');
+            currentService.classList.add('active');
+            services.addEventListener('mouseover', onService);
+            services.addEventListener('mouseout', offService);
+        }
+    }
+
+    function onService() {
+
+        let target = event.target;
+
+        if (!target.closest('.services__item')) return;
+
+        if (target.closest('.services__item') == currentService) return;
+
+        currentService.classList.remove('active');
+        currentService = target.closest('.services__item');
+        currentService.classList.add('active');
+    }
+
+    function offService() {
+
+        if (currentService.contains(event.relatedTarget)) return;
+
+        currentService.classList.remove('active');
+        currentService = services.querySelector('.services__item-main');
+        currentService.classList.add('active');
+    }
 
 });
 
