@@ -20,8 +20,8 @@
                 </div>
                 <div class="header__com">
                     <div class="com-main">
-                        <a href="tel:89831305388" class="header__com-phone">+7 (983) 130-53-88</a>
-                        <a href="mailto:visual.up@mail.ru" class="header__com-email">visual.up@mail.ru</a>
+                        <a href="tel:89831305388" class="com-main__phone">+7 (983) 130-53-88</a>
+                        <a href="mailto:visual.up@mail.ru" class="com-main__email">visual.up@mail.ru</a>
                     </div>
                     <div class="messengers">
                         <a href="https://api.whatsapp.com/send?phone=79831305388" class="messenger"><img
@@ -484,7 +484,7 @@
             </div>
         </div>
     </section>
-   
+
     <section class="kit">
         <div class="kit__container">
             <div class="kit__inner">
@@ -631,7 +631,7 @@
             </div>
         </div>
     </section>
-      
+
     <section class="special">
         <div class="special__container">
             <div class="special__inner">
@@ -661,11 +661,14 @@
             </div>
         </div>
     </section>
-    
+
     <section class="process">
         <div class="process__container">
             <div class="process__title">
                 Как происходит процесс работы?
+            </div>
+            <div class="process__title process__title-mobile">
+                Как мы работаем?
             </div>
             <div class="process__inner">
                 <div class="process__item">
@@ -812,6 +815,7 @@
             </div>
         </div>
     </section>
+
     <section class="discus">
         <div class="discus__wrapper">
             <div class="discus__box">
@@ -831,15 +835,22 @@
                                 <div class="input-wrapper">
                                     <input type="email" name="email" placeholder="Электронная почта">
                                 </div>
+                                <div class="form-error">
+                                    Одно или несколько полей содержат ошибочные данные. Пожалуйста, проверьте их и
+                                    попробуйте ещё раз.
+                                </div>
                             </div>
                             <div class="discus__form-textarea">
-                                <textarea name="textarea" placeholder="Комментарий"></textarea>
+                                <textarea name="textarea" maxlength="448" placeholder="Комментарий"></textarea>
                             </div>
                         </div>
                         <div class="discus__form-btns">
                             <button type="submit" class="btn btn-linear form-btn discus__form-btn">Отправить</button>
-                            <input type="file" id="discus-file">
-                            <label for="discus-file" class="file"><img src="img/file.png" alt=""></label>
+                            <div class="discus__form-file">
+                                <input type="file" name="file" id="discus-file" multiple>
+                                <label for="discus-file" class="file"><img src="img/file.png" alt=""></label>
+                                <div class="discus-file__content"></div>
+                            </div>
                         </div>
                         <div class="checkbox-wrapper">
                             <input type="checkbox" name="confirm" id="discus-confirm" checked>
@@ -854,6 +865,7 @@
             </div>
         </div>
     </section>
+
     <footer class="footer">
         <div class="footer__container">
             <div class="footer__inner">
@@ -862,7 +874,7 @@
                         <img src="img/logo.png" alt="">
                     </div>
                     <div class="footer__text">
-                        Информация на данном сайте не является публичной офертой.<br>
+                        Информация на данном сайте не является публичной офертой.
                         Любое копирование материалов с сайта должно сопровождаться обязательным указанием ссылки на
                         источник.
                     </div>
@@ -877,13 +889,13 @@
                                 alt=""></a>
                     </div>
                     <div class="com-main">
-                        <a href="tel:89831305388" class="header__com-phone">+7 (983) 130-53-88</a>
-                        <a href="mailto:visual.up@mail.ru" class="header__com-email">visual.up@mail.ru</a>
+                        <a href="tel:89831305388" class="com-main__phone">+7 (983) 130-53-88</a>
+                        <a href="mailto:visual.up@mail.ru" class="com-main__email">visual.up@mail.ru</a>
                     </div>
                 </div>
             </div>
         </div>
-    </footer> -->
+    </footer>
 
     <div class="modal" id="modal-count">
         <div class="modal__inner">
