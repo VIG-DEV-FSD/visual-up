@@ -298,28 +298,33 @@ $(function () {
         let field = target.closest('.discus__form-file').querySelector('.discus-file__content');
 
         if (num > 5){
-            field.innerHTML = 'Можно выбрать максимум 5 файлов'
+            field.innerHTML = (document.documentElement.clientWidth > 880) ? 'Можно выбрать максимум 5 файлов' : '!';
+            field.style.display = 'flex';
             field.classList.add('error');
             form.fileValid = false;
         }
         else if (num == 0){
             field.innerHTML = '';
+            field.style.display = 'none';
             field.classList.remove('error');
             form.fileValid = false;
         }
         else if (num == 1){
-            field.innerHTML = 'Выбран 1 файл';
+            field.innerHTML = (document.documentElement.clientWidth > 880) ? 'Выбран 1 файл' : '1';
             field.classList.remove('error');
+            field.style.display = 'flex';
             form.fileValid = true;
         }
         else if (num == 5){
-            field.innerHTML = 'Выбрано 5 файлов';
+            field.innerHTML = (document.documentElement.clientWidth > 880) ? 'Выбрано 5 файлов' : '5';
             field.classList.remove('error');
+            field.style.display = 'flex';
             form.fileValid = true;
         }
         else{
-            field.innerHTML = 'Выбрано ' + num + ' файла';
+            field.innerHTML = (document.documentElement.clientWidth > 880) ? 'Выбрано ' + num + ' файла' : num;
             field.classList.remove('error');
+            field.style.display = 'flex';
             form.fileValid = true;
         }
     }
