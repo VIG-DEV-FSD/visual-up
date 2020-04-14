@@ -267,9 +267,9 @@ $(function () {
   currentService.classList.add('active');
   services.addEventListener('mouseover', onService);
   services.addEventListener('mouseout', offService);
-  checkServices();
+  checkWidth();
   $(window).resize(function () {
-    checkServices();
+    checkWidth();
   });
   $('.portfolio__slider').slick({
     slidesToShow: 1,
@@ -308,7 +308,7 @@ $(function () {
   //     }, 'xml');
   //   });
 
-  function checkServices() {
+  function checkWidth() {
     if (document.documentElement.clientWidth < 1031 && !$('.services__inner').hasClass('slick-slider')) {
       currentService.classList.remove('active');
       services.removeEventListener('mouseover', onService);
@@ -338,6 +338,20 @@ $(function () {
       currentService.classList.add('active');
       services.addEventListener('mouseover', onService);
       services.addEventListener('mouseout', offService);
+    }
+
+    if (document.documentElement.clientWidth < 971 && !$('.reviews__inner').hasClass('slick-slider')) {
+      $('.reviews__inner').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        dotsClass: 'dots reviews__dots',
+        arrows: false,
+        autoplay: 2000,
+        infinite: true,
+        dots: true
+      });
+    } else if (document.documentElement.clientWidth >= 971 && $('.reviews__inner').hasClass('slick-slider')) {
+      $('.reviews__inner').slick('unslick');
     }
   }
 
