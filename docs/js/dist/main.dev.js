@@ -1,6 +1,9 @@
 "use strict";
 
 $(function () {
+  document.addEventListener('scroll', scrollToBack);
+  document.addEventListener('click', arrowTop);
+  scrollToBack();
   document.addEventListener('change', function () {
     checkInput(event.target);
   });
@@ -476,6 +479,26 @@ $(function () {
     event.preventDefault();
     var obj = document.querySelector('.' + target.dataset.target + '__title');
     obj.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+
+  function scrollToBack() {
+    var mainBlock = document.querySelector('.phone-bg').offsetHeight + 100;
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (scrollTop >= mainBlock) {
+      document.querySelector('.arrow-top').style.display = 'flex';
+    } else {
+      document.querySelector('.arrow-top').style.display = 'none';
+    }
+  }
+
+  function arrowTop() {
+    if (!event.target.closest('.arrow-top')) return;
+    event.preventDefault();
+    document.querySelector('.header').scrollIntoView({
       behavior: 'smooth',
       block: 'start'
     });
