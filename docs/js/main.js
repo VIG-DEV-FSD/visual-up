@@ -39,7 +39,7 @@ $(function () {
         $('.header__menu').slideUp(800);
     });
 
-    document.querySelector('.nav').addEventListener('click', navigation);
+    document.addEventListener('click', navigation);
 
     let timeout;
     $('input[type="tel"]').each(function () {
@@ -475,7 +475,7 @@ $(function () {
     function navigation() {
         let target = event.target;
 
-        if (target.tagName != 'A') return;
+        if (target.tagName != 'A' && !target.closest('.nav')) return;
 
         event.preventDefault();
 

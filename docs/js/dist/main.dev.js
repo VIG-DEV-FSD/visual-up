@@ -31,7 +31,7 @@ $(function () {
     if (!target.closest('.close')) return;
     $('.header__menu').slideUp(800);
   });
-  document.querySelector('.nav').addEventListener('click', navigation);
+  document.addEventListener('click', navigation);
   var timeout;
   $('input[type="tel"]').each(function () {
     $(this).mask('+7 (000) 000 00 00', {
@@ -475,7 +475,7 @@ $(function () {
 
   function navigation() {
     var target = event.target;
-    if (target.tagName != 'A') return;
+    if (target.tagName != 'A' && !target.closest('.nav')) return;
     event.preventDefault();
     var obj = document.querySelector('.' + target.dataset.target + '__title');
     obj.scrollIntoView({
