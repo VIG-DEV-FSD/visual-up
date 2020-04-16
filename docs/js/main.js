@@ -1,8 +1,112 @@
 $(function () {
 
+    $('.main-screen__text').slick({
+        arrows: false,
+        dots: true,
+        infinite: true,
+        dotsClass: 'main-screen__text-dots dots',
+        autoplay: true,
+        autoplaySpeed: 4000,
+        responsive: [
+            {
+                breakpoint: 741,
+                settings: {
+                    dots: false
+                }
+            },
+        ]
+    });
+
+    if (document.documentElement.clientWidth > 1000) {
+        let scene = $('#scene').get(0);
+        let parallaxInstance = new Parallax(scene);
+    }
+
+    $('.portfolio__slider').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        speed: 800,
+        infinite: true,
+        nextArrow: '<button class="slick-next portfolio-next"><img src="img/arrow-right.png"></button>',
+        prevArrow: '<button class="slick-prev portfolio-prev"><img src="img/arrow-left.png"></button>',
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    arrows: false
+                }
+            }
+        ]
+    });
+
+    // Service img convert
+
+    $('img.img-svg').each(function () {
+        var $img = $(this);
+        var imgClass = $img.attr('class');
+        var imgURL = $img.attr('src');
+        let grad = $('#linear-gradient').get(0);
+        $.get(imgURL, function (data) {
+            var $svg = $(data).find('svg');
+            if (typeof imgClass !== 'undefined') {
+                $svg = $svg.attr('class', imgClass + ' replaced-svg');
+            }
+            $svg = $svg.removeAttr('xmlns:a');
+            if (!$svg.attr('viewBox') && $svg.attr('height') && $svg.attr('width')) {
+                $svg.attr('viewBox', '0 0 ' + $svg.attr('height') + ' ' + $svg.attr('width'))
+            }
+            $svg.prepend(grad);
+            $svg.find('path').each(function () {
+                $(this).attr('fill', 'white');
+            });
+            $img.replaceWith($svg);
+        }, 'xml');
+    });
+
+    //Navigation
+
+    document.addEventListener('click', navigation);
+
+    //Sale window
+
+    function saleModal() {
+        if (document.documentElement.clientWidth > 768) {
+            if (document.querySelector('#modal-count').style.display != 'flex') {
+                let modal = document.querySelector('#modal-sale');
+                openModal(modal);
+            } else {
+                setTimeout(saleModal, 30000);
+            }
+        }
+    }
+
+    if (document.documentElement.clientWidth > 768) {
+        setTimeout(saleModal, 30000);
+    }
+
+    //Mask for phone
+
+    let timeout;
+    $('input[type="tel"]').each(function () {
+        $(this).mask('+7 (000) 000 00 00', {
+            onChange: function (cep, e) {
+                clearTimeout(timeout)
+                timeout = setTimeout(() => {
+                    checkPhone(cep, e);
+                }, 800);
+            }
+        });
+    });
+
+    //Arrow to top
+
     document.addEventListener('scroll', scrollToBack);
     document.addEventListener('click', arrowTop);
     scrollToBack();
+
+    //Check inputs and forms
 
     document.addEventListener('change', function () {
         checkInput(event.target);
@@ -24,6 +128,41 @@ $(function () {
         }
     });
 
+    let errs = {};
+    document.querySelectorAll('form').forEach((form) => {
+        errs[form] = [];
+    });
+
+    //Modal window
+
+    $(document).on('click', function () {
+
+        if (!event.target.closest('.btn-count')) return;
+
+        event.preventDefault();
+
+        let modal = document.querySelector('#modal-count');
+
+        openModal(modal);
+
+    });
+
+    //Services effects
+
+    let services = document.querySelector('.services__inner');
+    let currentService = services.querySelector('.services__item-main');
+    currentService.classList.add('active');
+    services.addEventListener('mouseover', onService);
+    services.addEventListener('mouseout', offService);
+
+    checkWidth();
+
+    $(window).resize(function () {
+        checkWidth();
+    });
+
+    //Mobile menu
+
     $('.header__menu-btn').on('click', function () {
         let menu = document.querySelector('.nav').innerHTML;
         let com = document.querySelector('.header__com').innerHTML;
@@ -39,124 +178,9 @@ $(function () {
         $('.header__menu').slideUp(800);
     });
 
-    document.addEventListener('click', navigation);
-
-    let timeout;
-    $('input[type="tel"]').each(function () {
-        $(this).mask('+7 (000) 000 00 00', {
-            onChange: function (cep, e) {
-                clearTimeout(timeout)
-                timeout = setTimeout(() => {
-                    checkPhone(cep, e);
-                }, 800);
-            }
-        });
-    });
-    
-    let errs = {};
-    document.querySelectorAll('form').forEach((form) => {
-        errs[form] = [];
-    });
-
-    if (document.documentElement.clientWidth > 1000) {
-        let scene = $('#scene').get(0);
-        let parallaxInstance = new Parallax(scene);
-    }
-
-    $('.main-screen__text').slick({
-        arrows: false,
-        dots: true,
-        infinite: true,
-        dotsClass: 'main-screen__text-dots dots',
-        autoplay: true,
-        autoplaySpeed: 4000,
-        responsive: [
-            {
-                breakpoint: 741,
-                settings: {
-                    dots: false
-                }
-            },
-        ]
-    });
 
 
-    $(document).on('click', function () {
-
-        if (!event.target.closest('.btn-count')) return;
-
-        event.preventDefault();
-
-        let modal = document.querySelector('#modal-count');
-        modal.style.display = 'flex';
-        modal.classList.remove('off');
-        modal.classList.add('on');
-        modal.querySelector('.modal__inner').classList.remove('off');
-        modal.querySelector('.modal__inner').classList.add('on');
-        document.body.style.overflow = 'hidden';
-
-        modal.addEventListener('click', function () {
-            closeModal(event, modal);
-        });
-        document.addEventListener('keyup', function () {
-            closeModal(event, modal);
-        });
-
-    });
-
-    let services = document.querySelector('.services__inner');
-    let currentService = services.querySelector('.services__item-main');
-    currentService.classList.add('active');
-    services.addEventListener('mouseover', onService);
-    services.addEventListener('mouseout', offService);
-
-    checkWidth();
-
-    $(window).resize(function () {
-        checkWidth();
-    });
-
-
-    $('.portfolio__slider').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 5000,
-        speed: 800,
-        infinite: true,
-        nextArrow: '<button class="slick-next portfolio-next"><img src="img/arrow-right.png"></button>',
-        prevArrow: '<button class="slick-prev portfolio-prev"><img src="img/arrow-left.png"></button>',
-        responsive: [
-            {
-                breakpoint: 768,
-                settings: {
-                    arrows: false
-                }
-            }
-        ]
-    });
-
-    $('img.img-svg').each(function(){
-        var $img = $(this);
-        var imgClass = $img.attr('class');
-        var imgURL = $img.attr('src');
-        let grad = $('#linear-gradient').get(0);
-        $.get(imgURL, function(data) {
-          var $svg = $(data).find('svg');
-          if(typeof imgClass !== 'undefined') {
-            $svg = $svg.attr('class', imgClass+' replaced-svg');
-          }
-          $svg = $svg.removeAttr('xmlns:a');
-          if(!$svg.attr('viewBox') && $svg.attr('height') && $svg.attr('width')) {
-            $svg.attr('viewBox', '0 0 ' + $svg.attr('height') + ' ' + $svg.attr('width'))
-          }
-          $svg.prepend(grad);
-          $svg.find('path').each(function(){
-            $(this).attr('fill', 'white');
-          });
-          $img.replaceWith($svg);
-        }, 'xml');
-      });
+    // FUNCTIONS
 
     function checkWidth() {
         if (document.documentElement.clientWidth < 1031 && !$('.services__inner').hasClass('slick-slider')) {
@@ -178,7 +202,7 @@ $(function () {
             $('.services__inner').slick('unslick');
             if (currentService) currentService.classList.add('active');
             services.addEventListener('mouseover', onService);
-            services.addEventListener('mouseout', offService); 
+            services.addEventListener('mouseout', offService);
         }
         if (document.documentElement.clientWidth < 971 && !$('.reviews__inner').hasClass('slick-slider')) {
             $('.reviews__inner').slick({
@@ -203,7 +227,7 @@ $(function () {
         if (!target.closest('.services__item')) return;
 
         if (target.closest('.services__item') == currentService) return;
-        
+
         if (currentService) currentService.classList.remove('active');
         currentService = target.closest('.services__item');
         currentService.classList.add('active');
@@ -434,7 +458,14 @@ $(function () {
 
         if (form.closest('.modal')) {
             let modalBody = form.closest('.modal').querySelector('.modal__body');
-            modalBody.innerHTML = '<div class="modal__title modal__title-thanks">Заявка принята!</div><div class="modal__text modal__text-thanks">Спасибо, что выбрали нас!</div><div class="modal__thanks"><img src="img/thanks.png" alt=""></div><div class="modal__descr modal__descr-thanks">Рекомендуем подписаться на наши социальные сети и получить скидку 10%</div><div class="messengers"><a href="https://www.instagram.com/visual.up/" class="messenger"><img src="img/instagram.png" alt=""></a><a href="https://www.behance.net/visual_up" class="messenger"><img src="img/behance.png" alt=""></a></div>';
+            modalBody.classList.add('off');
+
+            setTimeout(() => {
+                modalBody.innerHTML = '<div class="modal__title modal__title-thanks">Заявка принята!</div><div class="modal__text modal__text-thanks">Спасибо, что выбрали нас!</div><div class="modal__thanks"><img src="img/thanks.png" alt=""></div><div class="modal__descr modal__descr-thanks">Рекомендуем подписаться на наши социальные сети и получить скидку 10%</div><div class="messengers"><a href="https://www.instagram.com/visual.up/" class="messenger"><img src="img/instagram.png" alt=""></a><a href="https://www.behance.net/visual_up" class="messenger"><img src="img/behance.png" alt=""></a></div>';
+                setTimeout(() => {
+                    modalBody.classList.remove('off');
+                }, 500);
+            }, 500);
 
             if (document.documentElement.clientWidth > 600) {
                 modalBody.style.background = 'none';
@@ -452,6 +483,22 @@ $(function () {
             let parent = form.closest('section') || form.closest('.modal');
             parent.querySelector('.form-error').style.display = 'none';
         }
+    }
+
+    function openModal(modal) {
+
+        modal.style.display = 'flex';
+        modal.classList.remove('off');
+        modal.classList.add('on');
+        document.body.style.overflow = 'hidden';
+
+        modal.addEventListener('click', function () {
+            closeModal(event, modal);
+        });
+        document.addEventListener('keyup', function () {
+            closeModal(event, modal);
+        });
+
     }
 
     function closeModal(event, modal) {
@@ -475,9 +522,14 @@ $(function () {
     function navigation() {
         let target = event.target;
 
-        if (target.tagName != 'A' && !target.closest('.nav')) return;
+        if (!target.closest('.nav')) return;
+        if (target.tagName != 'A') return;
 
         event.preventDefault();
+
+        if (document.querySelector('.header__menu').style.display == 'block') {
+            $('.header__menu').slideUp(800);
+        }
 
         let obj = document.querySelector('.' + target.dataset.target + '__title');
 
@@ -491,10 +543,10 @@ $(function () {
         let mainBlock = document.querySelector('.phone-bg').offsetHeight + 100;
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        if (scrollTop >= mainBlock){
+        if (scrollTop >= mainBlock) {
             document.querySelector('.arrow-top').style.display = 'flex';
         }
-        else{
+        else {
             document.querySelector('.arrow-top').style.display = 'none';
         }
     }
