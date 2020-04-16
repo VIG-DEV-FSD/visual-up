@@ -41,6 +41,8 @@ $(function () {
         ]
     });
 
+    new WOW().init();
+
     // Service img convert
 
     $('img.img-svg').each(function () {
@@ -522,7 +524,7 @@ $(function () {
     function navigation() {
         let target = event.target;
 
-        if (!target.closest('.nav')) return;
+        if (!target.closest('.nav__menu')) return;
         if (target.tagName != 'A') return;
 
         event.preventDefault();

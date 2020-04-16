@@ -36,7 +36,8 @@ $(function () {
         arrows: false
       }
     }]
-  }); // Service img convert
+  });
+  new WOW().init(); // Service img convert
 
   $('img.img-svg').each(function () {
     var $img = $(this);
@@ -507,7 +508,7 @@ $(function () {
 
   function navigation() {
     var target = event.target;
-    if (!target.closest('.nav')) return;
+    if (!target.closest('.nav__menu')) return;
     if (target.tagName != 'A') return;
     event.preventDefault();
 

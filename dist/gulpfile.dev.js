@@ -36,7 +36,7 @@ gulp.task('js', function () {
   }));
 });
 gulp.task('jsLibs', function () {
-  return gulp.src(['node_modules/slick-carousel/slick/slick.js', 'node_modules/parallax-js/dist/parallax.js', 'node_modules/jquery-mask-plugin/dist/jquery.mask.js']).pipe(browserSync.reload({
+  return gulp.src(['node_modules/slick-carousel/slick/slick.js', 'node_modules/parallax-js/dist/parallax.js', 'node_modules/jquery-mask-plugin/dist/jquery.mask.js', 'node_modules/wow.js/dist/wow.js']).pipe(browserSync.reload({
     stream: true
   })).pipe(concat('libs.min.js')).pipe(uglify()).pipe(gulp.dest('app/js/'));
 });
