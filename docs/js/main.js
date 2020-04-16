@@ -180,7 +180,25 @@ $(function () {
         $('.header__menu').slideUp(800);
     });
 
+    //Kit effects
 
+    document.querySelector('.kit__img').addEventListener('mouseover', function() {
+        let circle = document.querySelector('.kit__circle');
+        circle.classList.add('animate');
+        circle.addEventListener('animationend', function() {
+            event.target.classList.remove('animate');
+        });
+    });
+
+    //Special effects
+
+    document.querySelector('.special__img').addEventListener('mouseover', function() {
+        let circle = document.querySelector('.special__circle');
+        circle.classList.add('animate');
+        circle.addEventListener('animationend', function() {
+            event.target.classList.remove('animate');
+        });
+    });
 
     // FUNCTIONS
 
