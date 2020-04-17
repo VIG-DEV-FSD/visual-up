@@ -1,3 +1,4 @@
+
 $(function () {
 
     $('.main-screen__text').slick({
@@ -70,6 +71,14 @@ $(function () {
     //Navigation
 
     document.addEventListener('click', navigation);
+
+    //More portfolio
+
+    document.addEventListener('click', loadPortfolio);
+
+    //More reviews
+
+    document.addEventListener('click', loadReviews);
 
     //Sale window
 
@@ -149,13 +158,17 @@ $(function () {
 
     });
 
+    //Prices countUp
+
+    let prices = $('.prices').get(0);
+    document.addEventListener('scroll', checkPrices);
+    checkPrices();
+
     //Services effects
 
     let services = document.querySelector('.services__inner');
     let currentService = services.querySelector('.services__item-main');
-    currentService.classList.add('active');
-    services.addEventListener('mouseover', onService);
-    services.addEventListener('mouseout', offService);
+    checkServices();
 
     checkWidth();
 
@@ -182,20 +195,20 @@ $(function () {
 
     //Kit effects
 
-    document.querySelector('.kit__img').addEventListener('mouseover', function() {
+    document.querySelector('.kit__img').addEventListener('mouseover', function () {
         let circle = document.querySelector('.kit__circle');
         circle.classList.add('animate');
-        circle.addEventListener('animationend', function() {
+        circle.addEventListener('animationend', function () {
             event.target.classList.remove('animate');
         });
     });
 
     //Special effects
 
-    document.querySelector('.special__img').addEventListener('mouseover', function() {
+    document.querySelector('.special__img').addEventListener('mouseover', function () {
         let circle = document.querySelector('.special__circle');
         circle.classList.add('animate');
-        circle.addEventListener('animationend', function() {
+        circle.addEventListener('animationend', function () {
             event.target.classList.remove('animate');
         });
     });
@@ -581,6 +594,93 @@ $(function () {
             behavior: 'smooth',
             block: 'start'
         });
+    }
+
+    function checkServices() {
+        if (currentService.style.visibility == 'visible') {
+            setTimeout(() => {
+                currentService.classList.add('active');
+                services.addEventListener('mouseover', onService);
+                services.addEventListener('mouseout', offService);
+            }, 1500)
+        } else {
+            setTimeout(checkServices, 500);
+        }
+    }
+
+    function loadPortfolio() {
+
+        if (!event.target.closest('.portfolio__more-btn')) return;
+
+        event.preventDefault();
+
+        $(event.target.closest('.more')).fadeOut(800);
+
+        setTimeout(() => {
+            $('.portfolio-more__wrapper').fadeIn(800);
+            $('.portfolio-more').magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                tLoading: 'Loading image #%curr%...',
+                removalDelay: 300,
+                mainClass: 'mfp-img-mobile mfp-fade',
+                gallery: {
+                    enabled: true,
+                    navigateByImgClick: true,
+                    preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+                },
+                image: {
+                    titleSrc: 'title'
+                },
+            })
+        }, 800);
+
+    }
+
+    function loadReviews() {
+
+        if (!event.target.closest('.reviews__more-btn')) return;
+
+        event.preventDefault();
+
+        $(event.target.closest('.more')).fadeOut(800);
+
+        let more = '<div class="reviews__item reviews__item-more"><div class="reviews__item-bg"></div> <div class="reviews__item-inner"> <div class="reviews__item-head"><div class="reviews__item-img"><img src="img/review-1.png" alt=""></div><div class="reviews__item-content"><div class="reviews__item-author"> Иванов Иван</div><div class="reviews__item-service">Landing page, адаптив</div></div><a href="#" class="reviews__item-link"><img src="img/arrow-review.png" alt=""></a> </div><div class="reviews__item-body"> В рот ебал первый канал. Ну и второй канал тоже в рот ебал!Спасибо большое! И ещё раз спасибо приспасибо!Спасибочки бля! УУУУУУ сука!</div></div></div><div class="reviews__item reviews__item-more"><div class="reviews__item-bg"></div> <div class="reviews__item-inner"> <div class="reviews__item-head"><div class="reviews__item-img"><img src="img/review-1.png" alt=""></div><div class="reviews__item-content"><div class="reviews__item-author"> Иванов Иван</div><div class="reviews__item-service">Landing page, адаптив</div></div><a href="#" class="reviews__item-link"><img src="img/arrow-review.png" alt=""></a> </div><div class="reviews__item-body"> В рот ебал первый канал. Ну и второй канал тоже в рот ебал!Спасибо большое! И ещё раз спасибо приспасибо!Спасибочки бля! УУУУУУ сука!</div></div></div><div class="reviews__item reviews__item-more"><div class="reviews__item-bg"></div> <div class="reviews__item-inner"> <div class="reviews__item-head"><div class="reviews__item-img"><img src="img/review-1.png" alt=""></div><div class="reviews__item-content"><div class="reviews__item-author"> Иванов Иван</div><div class="reviews__item-service">Landing page, адаптив</div></div><a href="#" class="reviews__item-link"><img src="img/arrow-review.png" alt=""></a> </div><div class="reviews__item-body"> В рот ебал первый канал. Ну и второй канал тоже в рот ебал!Спасибо большое! И ещё раз спасибо приспасибо!Спасибочки бля! УУУУУУ сука!</div></div></div><div class="reviews__item reviews__item-more"><div class="reviews__item-bg"></div> <div class="reviews__item-inner"> <div class="reviews__item-head"><div class="reviews__item-img"><img src="img/review-1.png" alt=""></div><div class="reviews__item-content"><div class="reviews__item-author"> Иванов Иван</div><div class="reviews__item-service">Landing page, адаптив</div></div><a href="#" class="reviews__item-link"><img src="img/arrow-review.png" alt=""></a> </div><div class="reviews__item-body"> В рот ебал первый канал. Ну и второй канал тоже в рот ебал!Спасибо большое! И ещё раз спасибо приспасибо!Спасибочки бля! УУУУУУ сука!</div></div></div><div class="reviews__item reviews__item-more"><div class="reviews__item-bg"></div> <div class="reviews__item-inner"> <div class="reviews__item-head"><div class="reviews__item-img"><img src="img/review-1.png" alt=""></div><div class="reviews__item-content"><div class="reviews__item-author"> Иванов Иван</div><div class="reviews__item-service">Landing page, адаптив</div></div><a href="#" class="reviews__item-link"><img src="img/arrow-review.png" alt=""></a> </div><div class="reviews__item-body"> В рот ебал первый канал. Ну и второй канал тоже в рот ебал!Спасибо большое! И ещё раз спасибо приспасибо!Спасибочки бля! УУУУУУ сука!</div></div></div>';
+
+        $('.reviews__inner').append(more);
+
+        setTimeout(() => {
+            $('.reviews__item-more').each(function () {
+                $(this).addClass('on');
+            });
+        }, 800);
+    }
+
+    function checkPrices() {
+            prices.querySelectorAll('.prices__item').forEach((item) => {
+                if (item.style.visibility == 'visible' && !item.classList.contains('done')) {
+                    let price = item.querySelector('.prices__item-price');
+                    item.classList.add('done');
+                    countNumber(price.querySelector('span'), price.dataset.max);
+                }
+            })
+    }
+
+    function countNumber(field, max) {
+        let val = 0;
+        field.innerHTML = val;
+        let step = Math.round(max / 500);
+        console.log(step);
+        let interval = setInterval(() => {
+            if (val < max) {
+                val += step;
+                field.innerHTML = val;
+            }
+            else {
+                field.innerHTML = max;
+                clearInterval(interval);
+            }
+        }, 1)
     }
 
 });

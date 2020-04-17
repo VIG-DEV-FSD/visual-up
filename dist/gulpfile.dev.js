@@ -26,7 +26,7 @@ gulp.task('scss', function () {
   })).pipe(gulp.dest('app/css/'));
 });
 gulp.task('css', function () {
-  return gulp.src(['node_modules/normalize.css/normalize.css', 'node_modules/slick-carousel/slick/slick.css', 'node_modules/animate.css/animate.css']).pipe(browserSync.reload({
+  return gulp.src(['node_modules/normalize.css/normalize.css', 'node_modules/slick-carousel/slick/slick.css', 'node_modules/animate.css/animate.css', 'node_modules/magnific-popup/dist/magnific-popup.css']).pipe(browserSync.reload({
     stream: true
   })).pipe(concat('_libs.scss')).pipe(gulp.dest('app/scss/'));
 });
@@ -36,7 +36,7 @@ gulp.task('js', function () {
   }));
 });
 gulp.task('jsLibs', function () {
-  return gulp.src(['node_modules/slick-carousel/slick/slick.js', 'node_modules/parallax-js/dist/parallax.js', 'node_modules/jquery-mask-plugin/dist/jquery.mask.js', 'node_modules/wow.js/dist/wow.js']).pipe(browserSync.reload({
+  return gulp.src(['node_modules/slick-carousel/slick/slick.js', 'node_modules/parallax-js/dist/parallax.js', 'node_modules/jquery-mask-plugin/dist/jquery.mask.js', 'node_modules/wow.js/dist/wow.js', 'node_modules/magnific-popup/dist/jquery.magnific-popup.js']).pipe(browserSync.reload({
     stream: true
   })).pipe(concat('libs.min.js')).pipe(uglify()).pipe(gulp.dest('app/js/'));
 });
