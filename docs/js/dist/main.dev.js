@@ -479,18 +479,23 @@ $(function () {
     }
 
     if (form.closest('.modal')) {
-      var modalBody = form.closest('.modal').querySelector('.modal__body');
-      modalBody.classList.add('off');
+      var _modalBody = form.closest('.modal').querySelector('.modal__body');
+
+      _modalBody.classList.add('off');
+
       setTimeout(function () {
-        modalBody.innerHTML = document.querySelector('.thanks-module').innerHTML;
+        _modalBody.innerHTML = document.querySelector('.thanks-module').innerHTML;
+
+        _modalBody.classList.add('modal__body-thanks');
+
         setTimeout(function () {
-          modalBody.classList.remove('off');
+          _modalBody.classList.remove('off');
         }, 500);
       }, 500);
     } else {
       var modal = document.querySelector('#modal-count');
       var content = document.querySelector('.thanks-module').innerHTML;
-      openModal(modal, content);
+      openModal(modal, content, true);
       clearForm(form);
     }
   }
@@ -537,8 +542,9 @@ $(function () {
     }
   }
 
-  function openModal(modal, content) {
+  function openModal(modal, content, isThanks) {
     if (content) modal.querySelector('.modal__body').innerHTML = content;
+    if (isThanks) modalBody.classList.add('modal__body-thanks');
     $(modal).find('input[type="tel"]').each(function () {
       $(this).mask('+7 (000) 000 00 00', {
         onChange: function onChange(cep, e) {

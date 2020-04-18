@@ -501,6 +501,7 @@ $(function () {
 
             setTimeout(() => {
                 modalBody.innerHTML = document.querySelector('.thanks-module').innerHTML;
+                modalBody.classList.add('modal__body-thanks');
                 setTimeout(() => {
                     modalBody.classList.remove('off');
                 }, 500);
@@ -509,7 +510,7 @@ $(function () {
         } else{
             let modal = document.querySelector('#modal-count');
             let content = document.querySelector('.thanks-module').innerHTML;
-            openModal(modal, content);
+            openModal(modal, content, true);
             clearForm(form);
         }
     }
@@ -552,9 +553,11 @@ $(function () {
         }
     }
 
-    function openModal(modal, content) {
+    function openModal(modal, content, isThanks) {
         
         if (content) modal.querySelector('.modal__body').innerHTML = content;
+
+        if (isThanks) modalBody.classList.add('modal__body-thanks');
 
         $(modal).find('input[type="tel"]').each(function () {
             $(this).mask('+7 (000) 000 00 00', {
