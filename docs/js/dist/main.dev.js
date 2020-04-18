@@ -75,7 +75,7 @@ $(function () {
     if (document.documentElement.clientWidth > 768) {
       if (document.querySelector('#modal-count').style.display != 'flex') {
         var modal = document.querySelector('#modal-sale');
-        openModal(modal);
+        openModal(modal, null);
       } else {
         setTimeout(saleModal, 30000);
       }
@@ -88,7 +88,7 @@ $(function () {
 
 
   var timeout;
-  $('input[type="tel"]').each(function () {
+  $('.discus input[type="tel"]').each(function () {
     $(this).mask('+7 (000) 000 00 00', {
       onChange: function onChange(cep, e) {
         clearTimeout(timeout);
@@ -128,7 +128,8 @@ $(function () {
     if (!event.target.closest('.btn-count')) return;
     event.preventDefault();
     var modal = document.querySelector('#modal-count');
-    openModal(modal);
+    var content = document.querySelector('.form-module').innerHTML;
+    openModal(modal, content);
   }); //Prices countUp
 
   var prices = $('.prices').get(0);
@@ -481,15 +482,46 @@ $(function () {
       var modalBody = form.closest('.modal').querySelector('.modal__body');
       modalBody.classList.add('off');
       setTimeout(function () {
-        modalBody.innerHTML = '<div class="modal__title modal__title-thanks">Заявка принята!</div><div class="modal__text modal__text-thanks">Спасибо, что выбрали нас!</div><div class="modal__thanks"><img src="img/thanks.png" alt=""></div><div class="modal__descr modal__descr-thanks">Рекомендуем подписаться на наши социальные сети и получить скидку 10%</div><div class="messengers"><a href="https://www.instagram.com/visual.up/" class="messenger"><img src="img/instagram.png" alt=""></a><a href="https://www.behance.net/visual_up" class="messenger"><img src="img/behance.png" alt=""></a></div>';
+        modalBody.innerHTML = document.querySelector('.thanks-module').innerHTML;
         setTimeout(function () {
           modalBody.classList.remove('off');
         }, 500);
       }, 500);
+    } else {
+      var modal = document.querySelector('#modal-count');
+      var content = document.querySelector('.thanks-module').innerHTML;
+      openModal(modal, content);
+      clearForm(form);
+    }
+  }
 
-      if (document.documentElement.clientWidth > 600) {
-        modalBody.style.background = 'none';
-      }
+  function clearForm(form) {
+    if (form.name) {
+      form.name.value = '';
+      form.name.closest('.input-wrapper').classList.remove('success');
+      form.nameValid = false;
+    }
+
+    if (form.email) {
+      form.email.value = '';
+      form.email.closest('.input-wrapper').classList.remove('success');
+      form.emailValid = false;
+    }
+
+    if (form.tel) {
+      form.tel.value = '';
+      form.tel.closest('.input-wrapper').classList.remove('success');
+      form.telValid = false;
+    }
+
+    if (form.textarea) {
+      form.textarea.value = '';
+    }
+
+    if (form.file) {
+      form.file.value = '';
+      form.fileValid = false;
+      form.querySelector('.discus-file__content').innerHTML = '';
     }
   }
 
@@ -505,7 +537,18 @@ $(function () {
     }
   }
 
-  function openModal(modal) {
+  function openModal(modal, content) {
+    if (content) modal.querySelector('.modal__body').innerHTML = content;
+    $(modal).find('input[type="tel"]').each(function () {
+      $(this).mask('+7 (000) 000 00 00', {
+        onChange: function onChange(cep, e) {
+          clearTimeout(timeout);
+          timeout = setTimeout(function () {
+            checkPhone(cep, e);
+          }, 800);
+        }
+      });
+    });
     modal.style.display = 'flex';
     modal.classList.remove('off');
     modal.classList.add('on');
