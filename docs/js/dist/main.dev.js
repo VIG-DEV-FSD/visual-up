@@ -478,6 +478,17 @@ $(function () {
       return;
     }
 
+    $.ajax({
+      url: 'ajax/mail.php',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      dataType: 'text',
+      beforeSend: function beforeSend() {},
+      success: function success(resp) {
+        alert(resp);
+      }
+    });
+
     if (form.closest('.modal')) {
       var _modalBody = form.closest('.modal').querySelector('.modal__body');
 

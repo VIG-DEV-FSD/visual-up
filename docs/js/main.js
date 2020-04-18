@@ -495,6 +495,19 @@ $(function () {
             return;
         }
 
+        $.ajax({
+            url: 'ajax/mail.php',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: 'text',
+            beforeSend: function(){
+                
+            },
+            success: function(resp) {
+                alert(resp);
+            }
+        });
+
         if (form.closest('.modal')) {
             let modalBody = form.closest('.modal').querySelector('.modal__body');
             modalBody.classList.add('off');
