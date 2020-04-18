@@ -401,13 +401,13 @@ $(function () {
   function checkForm() {
     event.preventDefault();
     var form = event.target;
-    var data = {};
+    var data = new FormData();
 
     if (form.name) {
       if (!form.nameValid && !errs[form].includes(form.name)) {
         errs[form].push(form.name);
       } else {
-        data.name = form.name.value;
+        data.append('name', form.name.value);
       }
     }
 
@@ -415,7 +415,7 @@ $(function () {
       if (!form.telValid && !errs[form].includes(form.tel)) {
         errs[form].push(form.tel);
       } else {
-        data.phone = form.tel.value;
+        data.append('phone', form.tel.value);
       }
     }
 
@@ -423,19 +423,19 @@ $(function () {
       if (!form.emailValid && !errs[form].includes(form.email)) {
         errs[form].push(form.email);
       } else {
-        data.email = form.email.value;
+        data.append('email', form.email.value);
       }
     }
 
     if (form.textarea) {
       if (form.textarea.value) {
-        data.comment = form.textarea.value;
+        data.append('comment', form.textarea.value);
       }
     }
 
     if (form.file) {
       if (form.fileValid) {
-        data.files = form.file.files;
+        data.append('file', form.file);
       }
     }
 
@@ -479,9 +479,10 @@ $(function () {
     }
 
     $.ajax({
-      url: 'ajax/mail.php',
-      data: JSON.stringify(data),
-      contentType: 'application/json',
+      url: 'mail.php',
+      data: data,
+      contentType: false,
+      processData: false,
       dataType: 'text',
       beforeSend: function beforeSend() {},
       success: function success(resp) {
@@ -490,17 +491,13 @@ $(function () {
     });
 
     if (form.closest('.modal')) {
-      var _modalBody = form.closest('.modal').querySelector('.modal__body');
-
-      _modalBody.classList.add('off');
-
+      var modalBody = form.closest('.modal').querySelector('.modal__body');
+      modalBody.classList.add('off');
       setTimeout(function () {
-        _modalBody.innerHTML = document.querySelector('.thanks-module').innerHTML;
-
-        _modalBody.classList.add('modal__body-thanks');
-
+        modalBody.innerHTML = document.querySelector('.thanks-module').innerHTML;
+        modalBody.classList.add('modal__body-thanks');
         setTimeout(function () {
-          _modalBody.classList.remove('off');
+          modalBody.classList.remove('off');
         }, 500);
       }, 500);
     } else {
@@ -555,7 +552,7 @@ $(function () {
 
   function openModal(modal, content, isThanks) {
     if (content) modal.querySelector('.modal__body').innerHTML = content;
-    if (isThanks) modalBody.classList.add('modal__body-thanks');
+    if (isThanks) modal.querySelector('.modal__body').classList.add('modal__body-thanks');
     $(modal).find('input[type="tel"]').each(function () {
       $(this).mask('+7 (000) 000 00 00', {
         onChange: function onChange(cep, e) {
