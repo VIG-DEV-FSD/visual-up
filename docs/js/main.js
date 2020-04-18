@@ -475,7 +475,9 @@ $(function () {
         }
         if (form.file) {
             if (form.fileValid) {
-                data.append('file', form.file);
+                for (let i = 0; i < form.file.files.length; i++) {
+                    data.append(i, form.file.files[i]);
+                }
             }
         }
         if (errs[form].length != 0) {
@@ -498,57 +500,57 @@ $(function () {
         $.ajax({
             url: 'mail.php',
             data: data,
+            method: 'POST',
             contentType: false,
             processData: false,
             dataType: 'text',
-            beforeSend: function(){
-                
+            beforeSend: function () {
+
             },
-            success: function(resp) {
-                alert(resp);
+            success: function (resp) {
+                if (form.closest('.modal')) {
+                    let modalBody = form.closest('.modal').querySelector('.modal__body');
+                    modalBody.classList.add('off');
+
+                    setTimeout(() => {
+                        modalBody.innerHTML = document.querySelector('.thanks-module').innerHTML;
+                        modalBody.classList.add('modal__body-thanks');
+                        setTimeout(() => {
+                            modalBody.classList.remove('off');
+                        }, 500);
+                    }, 500);
+
+                } else {
+                    let modal = document.querySelector('#modal-count');
+                    let content = document.querySelector('.thanks-module').innerHTML;
+                    openModal(modal, content, true);
+                    clearForm(form);
+                }
             }
         });
 
-        if (form.closest('.modal')) {
-            let modalBody = form.closest('.modal').querySelector('.modal__body');
-            modalBody.classList.add('off');
-
-            setTimeout(() => {
-                modalBody.innerHTML = document.querySelector('.thanks-module').innerHTML;
-                modalBody.classList.add('modal__body-thanks');
-                setTimeout(() => {
-                    modalBody.classList.remove('off');
-                }, 500);
-            }, 500);
-
-        } else{
-            let modal = document.querySelector('#modal-count');
-            let content = document.querySelector('.thanks-module').innerHTML;
-            openModal(modal, content, true);
-            clearForm(form);
-        }
     }
 
     function clearForm(form) {
-        if (form.name){
+        if (form.name) {
             form.name.value = '';
             form.name.closest('.input-wrapper').classList.remove('success');
             form.nameValid = false;
         }
-        if (form.email){
+        if (form.email) {
             form.email.value = '';
             form.email.closest('.input-wrapper').classList.remove('success');
             form.emailValid = false;
         }
-        if (form.tel){
+        if (form.tel) {
             form.tel.value = '';
             form.tel.closest('.input-wrapper').classList.remove('success');
             form.telValid = false;
         }
-        if (form.textarea){
+        if (form.textarea) {
             form.textarea.value = '';
         }
-        if (form.file){
+        if (form.file) {
             form.file.value = '';
             form.fileValid = false;
             form.querySelector('.discus-file__content').innerHTML = '';
@@ -568,7 +570,7 @@ $(function () {
     }
 
     function openModal(modal, content, isThanks) {
-        
+
         if (content) modal.querySelector('.modal__body').innerHTML = content;
 
         if (isThanks) modal.querySelector('.modal__body').classList.add('modal__body-thanks');
@@ -583,7 +585,7 @@ $(function () {
                 }
             });
         });
-        
+
         modal.style.display = 'flex';
         modal.classList.remove('off');
         modal.classList.add('on');
@@ -721,13 +723,13 @@ $(function () {
     }
 
     function checkPrices() {
-            prices.querySelectorAll('.prices__item').forEach((item) => {
-                if (item.style.visibility == 'visible' && !item.classList.contains('done')) {
-                    let price = item.querySelector('.prices__item-price');
-                    item.classList.add('done');
-                    countNumber(price.querySelector('span'), price.dataset.max);
-                }
-            })
+        prices.querySelectorAll('.prices__item').forEach((item) => {
+            if (item.style.visibility == 'visible' && !item.classList.contains('done')) {
+                let price = item.querySelector('.prices__item-price');
+                item.classList.add('done');
+                countNumber(price.querySelector('span'), price.dataset.max);
+            }
+        })
     }
 
     function countNumber(field, max) {

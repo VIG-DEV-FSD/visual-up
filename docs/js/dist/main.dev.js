@@ -435,7 +435,9 @@ $(function () {
 
     if (form.file) {
       if (form.fileValid) {
-        data.append('file', form.file);
+        for (var i = 0; i < form.file.files.length; i++) {
+          data.append(i, form.file.files[i]);
+        }
       }
     }
 
@@ -481,31 +483,30 @@ $(function () {
     $.ajax({
       url: 'mail.php',
       data: data,
+      method: 'POST',
       contentType: false,
       processData: false,
       dataType: 'text',
       beforeSend: function beforeSend() {},
       success: function success(resp) {
-        alert(resp);
+        if (form.closest('.modal')) {
+          var modalBody = form.closest('.modal').querySelector('.modal__body');
+          modalBody.classList.add('off');
+          setTimeout(function () {
+            modalBody.innerHTML = document.querySelector('.thanks-module').innerHTML;
+            modalBody.classList.add('modal__body-thanks');
+            setTimeout(function () {
+              modalBody.classList.remove('off');
+            }, 500);
+          }, 500);
+        } else {
+          var modal = document.querySelector('#modal-count');
+          var content = document.querySelector('.thanks-module').innerHTML;
+          openModal(modal, content, true);
+          clearForm(form);
+        }
       }
     });
-
-    if (form.closest('.modal')) {
-      var modalBody = form.closest('.modal').querySelector('.modal__body');
-      modalBody.classList.add('off');
-      setTimeout(function () {
-        modalBody.innerHTML = document.querySelector('.thanks-module').innerHTML;
-        modalBody.classList.add('modal__body-thanks');
-        setTimeout(function () {
-          modalBody.classList.remove('off');
-        }, 500);
-      }, 500);
-    } else {
-      var modal = document.querySelector('#modal-count');
-      var content = document.querySelector('.thanks-module').innerHTML;
-      openModal(modal, content, true);
-      clearForm(form);
-    }
   }
 
   function clearForm(form) {
