@@ -496,37 +496,24 @@ $(function () {
             return;
         }
 
-        $.ajax({
-            url: 'mail.php',
-            data: data,
-            method: 'POST',
-            contentType: false,
-            processData: false,
-            dataType: 'text',
-            beforeSend: function () {
+        if (form.closest('.modal')) {
+            let modalBody = form.closest('.modal').querySelector('.modal__body');
+            modalBody.classList.add('off');
 
-            },
-            success: function (resp) {
-                if (form.closest('.modal')) {
-                    let modalBody = form.closest('.modal').querySelector('.modal__body');
-                    modalBody.classList.add('off');
+            setTimeout(() => {
+                modalBody.innerHTML = document.querySelector('.thanks-module').innerHTML;
+                modalBody.classList.add('modal__body-thanks');
+                setTimeout(() => {
+                    modalBody.classList.remove('off');
+                }, 500);
+            }, 500);
 
-                    setTimeout(() => {
-                        modalBody.innerHTML = document.querySelector('.thanks-module').innerHTML;
-                        modalBody.classList.add('modal__body-thanks');
-                        setTimeout(() => {
-                            modalBody.classList.remove('off');
-                        }, 500);
-                    }, 500);
-
-                } else {
-                    let modal = document.querySelector('#modal-count');
-                    let content = document.querySelector('.thanks-module').innerHTML;
-                    openModal(modal, content, true);
-                    clearForm(form);
-                }
-            }
-        });
+        } else {
+            let modal = document.querySelector('#modal-count');
+            let content = document.querySelector('.thanks-module').innerHTML;
+            openModal(modal, content, true);
+            clearForm(form);
+        }
 
     }
 
