@@ -1,1 +1,1 @@
-https://vig-dev-fsd.github.io/visual-up/
+https://vlgdev.github.io/visual-up/
